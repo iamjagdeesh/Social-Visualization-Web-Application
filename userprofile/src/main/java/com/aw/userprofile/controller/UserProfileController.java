@@ -15,7 +15,7 @@ public class UserProfileController {
 	
 	@RequestMapping(value = "/info", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> getInfo() {
-		return new ResponseEntity<String>("IPH Service is running!", HttpStatus.OK);
+		return new ResponseEntity<String>("UserProfile is running!", HttpStatus.OK);
 	}
 
 }
