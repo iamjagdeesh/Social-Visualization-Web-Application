@@ -4,7 +4,7 @@ import java.sql.Timestamp;
 
 public class LoginHistoryDomain {
 	
-	private String id;
+	private Integer id;
 	
 	private UserDomain userDomain;
 	
@@ -15,18 +15,18 @@ public class LoginHistoryDomain {
 		// TODO Auto-generated constructor stub
 	}
 
-	public LoginHistoryDomain(String id, UserDomain userDomain, Timestamp loginTime) {
+	public LoginHistoryDomain(Integer id, UserDomain userDomain, Timestamp loginTime) {
 		super();
 		this.id = id;
 		this.userDomain = userDomain;
 		this.loginTime = loginTime;
 	}
 
-	public String getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

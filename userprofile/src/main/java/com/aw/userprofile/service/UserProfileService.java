@@ -4,10 +4,12 @@ import com.aw.userprofile.domain.UserDomain;
 
 public interface UserProfileService {
 	
-	public UserDomain getUser(UserDomain userDomain);
+	public UserDomain getUser(String userId);
 	
 	public UserDomain createUser(UserDomain userDomain);
 	
-	public UserDomain deleteUser(UserDomain userDomain);
+	public void deleteUser(UserDomain userDomain);
+	
+	public UserDomain authenticateUser(String id, String password);
 	
 }
