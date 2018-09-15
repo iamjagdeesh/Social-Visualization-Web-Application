@@ -5,9 +5,11 @@ import java.util.List;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 import com.aw.userprofile.entities.LoginHistory;
 
+@Repository
 public interface LoginHistoryRepo extends CrudRepository<LoginHistory, String>{
 	
 	@Query("from LoginHistory l order by l.id asc")

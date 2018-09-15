@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.aw.userprofile.domain.EventDomain;
 import com.aw.userprofile.domain.UserDomain;
+import com.aw.userprofile.service.EventService;
 import com.aw.userprofile.service.UserProfileService;
 
 @CrossOrigin
@@ -20,6 +22,9 @@ public class UserProfileController {
 	
 	@Autowired
 	private UserProfileService userProfileService;
+	
+	@Autowired
+	private EventService eventService;
 	
 	@RequestMapping(value = "/info", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> getInfo() {
@@ -50,6 +55,19 @@ public class UserProfileController {
 		}
 		
 		return new ResponseEntity<UserDomain>(u, httpStatus);
+	}
+	
+	@RequestMapping(value = "/addEvent", method = RequestMethod.POST)
+	public ResponseEntity<EventDomain> addEvent(@RequestBody EventDomain eventDomain) {
+		EventDomain e = eventService.addEvent(eventDomain);
+		HttpStatus httpStatus;
+		if(e != null) {
+			httpStatus = HttpStatus.OK;
+		} else {
+			httpStatus = HttpStatus.BAD_REQUEST;
+		}
+		
+		return new ResponseEntity<EventDomain>(e, httpStatus);
 	}
 
 }
