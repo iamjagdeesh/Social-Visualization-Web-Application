@@ -52,7 +52,7 @@ public class UserProfileController {
 		return new ResponseEntity<UserDomain>(u, httpStatus);
 	}
 	
-	@RequestMapping(value = "/login", method = RequestMethod.PUT)
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public ResponseEntity<UserDomain> loginUser(@RequestBody UserDomain userDomain) {
 		UserDomain u = userProfileService.authenticateUser(userDomain.getUserId(), userDomain.getPassword());
 		HttpStatus httpStatus;
