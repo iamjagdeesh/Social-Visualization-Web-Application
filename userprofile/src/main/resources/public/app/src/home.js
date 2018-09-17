@@ -1,15 +1,20 @@
 import React, { Component } from 'react';
-import { Button } from 'reactstrap';
+import { Row, Col, Button, Table } from 'reactstrap';
 
 import Login from './login.js';
+import LoginHistory from './models/loginHistory.js';
+import Stack from './stack.js';
 
 class Home extends Component {
 
     constructor(props) {
         super(props);
         this.saveLoginData = this.saveLoginData.bind(this);
-        this.state = {loginData: null};
+        this.state = {loginData: null, isHistoryTableLoading: true, loginHistoryData: [], stack: false};
         this.logout = this.logout.bind(this);
+        this.loginHistory = new LoginHistory();
+        this.getLoginHistory = this.getLoginHistory.bind(this);
+        this.stack = this.stack.bind(this);
         console.log("Inside Home!");
     }
 
@@ -23,14 +28,54 @@ class Home extends Component {
         this.saveLoginData(null);
     }
 
+    async getLoginHistory(e) {
+        e.preventDefault();
+        let loginHistoryData;
+        if(this.state.isHistoryTableLoading) {
+            loginHistoryData = await this.loginHistory.getLoginHistory(this.props.loginData.userId);
+            this.setState({loginHistoryData: loginHistoryData, isHistoryTableLoading: false});
+            console.log(loginHistoryData);
+        }
+        return
+    }
+
+    async stack(e) {
+        e.preventDefault();
+        this.setState({stack: true});
+    }
+
     render() {
         console.log("Inside Home render!");
         return (
             <div>
                 {
-                    this.props.loginData &&
+                    this.props.loginData && !this.state.stack &&
                     <div>
                         <h1>Welcome {this.props.loginData.userName}</h1>
+                        <Button onClick={this.getLoginHistory} >Show Login History</Button>
+                        <Button onClick={this.stack} >Go to Stack Overflow</Button>
+                        <Row />
+                        {
+                            !this.state.isHistoryTableLoading &&
+                            <Table striped bordered hover responsive>
+                                <thead>
+                                    <tr>
+                                    <th>#</th>
+                                    <th>Login Time</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {   
+                                        this.state.loginHistoryData.map((history, index) => {
+                                        return <tr key={index+1}>
+                                            <td>{index+1}</td>
+                                            <td>{history.loginTime}</td>
+                                        </tr>
+                                        })
+                                    }
+                                </tbody>
+                            </Table>
+                        }
                         <Button onClick={this.logout}>Logout</Button>
                     </div>
                 }
@@ -38,6 +83,12 @@ class Home extends Component {
                     !this.props.loginData &&
                     <Login 
                         loginData={this.state.loginData}
+                        saveLoginData={this.saveLoginData}/>
+                }
+                {
+                    this.state.stack &&
+                    <Stack 
+                        loginData={this.props.loginData}
                         saveLoginData={this.saveLoginData}/>
                 }
             </div>

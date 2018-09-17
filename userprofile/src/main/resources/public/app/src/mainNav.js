@@ -23,7 +23,7 @@ class MainNav extends React.Component {
     return (
       <div>
         <Navbar color="light" light expand="md">
-          <NavbarBrand href="#">Menu</NavbarBrand>
+          <NavbarBrand href="#">Social visualization with behavior logging</NavbarBrand>
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
