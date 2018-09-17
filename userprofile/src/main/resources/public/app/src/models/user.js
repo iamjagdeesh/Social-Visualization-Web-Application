@@ -23,4 +23,24 @@ export default class UserProfile extends CancelableOperation {
         return data;
 
     }
+
+    async register(userId, userName, password) {
+        var payload={
+            "userId": userId,
+            "userName": userName,
+            "password": password
+        }
+
+        let data;
+        try {
+            let response = await Axios.post('/aw/register', payload);
+            console.log(response.data);
+            data = response.data;
+        } catch (err) {
+            if(!Axios.isCancel(err)){
+                throw err;
+            }
+        }
+        return data;
+    }
 }
