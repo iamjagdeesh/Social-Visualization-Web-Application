@@ -11,7 +11,11 @@ chrome.extension.onMessage.addListener(
   	//chrome.pageAction.show(sender.tab.id);
     //sendResponse();
     console.log("Click received in b.js: "+request.class);
-    onClickListener(request);
+    if (request.type == "load") {
+      onLoadListener(request);
+    } else {
+      onClickListener(request);
+    }
     /*
     switch(request.type) {
       case "clicked":
@@ -42,6 +46,31 @@ chrome.extension.onMessage.addListener(
           }
       
           axios.post('http://127.0.0.1:9090/aw/addEventHistory', eventHistoryDomain);
+        }
+      else {
+        console.log('Cookie not found');
+      }
+    });
+  };
+
+  var onLoadListener = function(request) {
+    console.log("load tag function");
+    var username = 'dummy';
+    chrome.cookies.get( { url: 'http://localhost:3000/', name: 'userId' },
+      function (cookie) {
+        if (cookie) {
+          console.log(cookie);
+          console.log(request.tags);
+          userId = cookie.value;
+          var timestamp = new Date();
+          var userTagsInputDomain = {
+            "userDomain": {
+              "userId": userId
+            },
+            "commaSeparatedTags":request.tags
+          }
+      
+          axios.post('http://127.0.0.1:9090/aw/addUserTags', userTagsInputDomain);
         }
       else {
         console.log('Cookie not found');

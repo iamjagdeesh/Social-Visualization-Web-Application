@@ -52,6 +52,20 @@ $('.comments-link').click(function() {
 
 });
 
+$( document ).ready(function() {
+	var tags = [];
+    $('.post-tag.js-gps-track').each(function(tagDivElement) {
+		tags.push($(this).text());
+	});
+	console.log(tags);
+	chrome.extension.sendMessage({
+		type: "load",
+		class: "tagsInPage",
+		tags: tags.toString(),
+		url : window.location.href
+	});
+});
+
 $('[class^=vote-up]').click(function() { 
 	chrome.extension.sendMessage({
 		type: "clicked",

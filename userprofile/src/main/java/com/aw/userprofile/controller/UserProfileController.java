@@ -17,12 +17,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.aw.userprofile.domain.EventDomain;
 import com.aw.userprofile.domain.EventHistoryDomain;
+import com.aw.userprofile.domain.EventHistoryHourCountDomain;
 import com.aw.userprofile.domain.LoginHistoryDomain;
 import com.aw.userprofile.domain.UserDomain;
+import com.aw.userprofile.domain.UserTagsCountOutputDomain;
+import com.aw.userprofile.domain.UserTagsInputDomain;
 import com.aw.userprofile.service.EventHistoryService;
 import com.aw.userprofile.service.EventService;
 import com.aw.userprofile.service.LoginHistoryService;
 import com.aw.userprofile.service.UserProfileService;
+import com.aw.userprofile.service.UserTagsService;
 
 @CrossOrigin
 @RestController
@@ -42,6 +46,9 @@ public class UserProfileController {
 	
 	@Autowired
 	private EventHistoryService eventHistoryService;
+	
+	@Autowired
+	private UserTagsService userTagsService;
 	
 	@RequestMapping(value = "/info", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> getInfo() {
@@ -173,4 +180,36 @@ public class UserProfileController {
 		return new ResponseEntity<List<EventHistoryDomain>>(eventHistoryDomainList, httpStatus);
 	}
 	
+	@RequestMapping(value = "/getEventHistoryHourCountForUserAndEvent", method = RequestMethod.GET)
+	public ResponseEntity<List<EventHistoryHourCountDomain>> getEventHistoryHourCountForUserAndEvent(@RequestParam("userId") String userId, @RequestParam("eventName") String eventName) {
+		List<EventHistoryHourCountDomain> eventHistoryHourCountDomainList = eventHistoryService.getEventHistoyHourCount(userId, eventName);
+		HttpStatus httpStatus;
+		if(eventHistoryHourCountDomainList != null) {
+			httpStatus = HttpStatus.OK;
+		} else {
+			httpStatus = HttpStatus.BAD_REQUEST;
+		}
+		
+		return new ResponseEntity<List<EventHistoryHourCountDomain>>(eventHistoryHourCountDomainList, httpStatus);
+	}
+	
+	@RequestMapping(value = "/addUserTags", method = RequestMethod.POST)
+	public ResponseEntity<UserTagsInputDomain> addUserTags(@RequestBody UserTagsInputDomain userTagsInputDomain) {
+		userTagsService.updateOrInsert(userTagsInputDomain);
+		
+		return new ResponseEntity<UserTagsInputDomain>(userTagsInputDomain, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/getTagCountForUser", method = RequestMethod.GET)
+	public ResponseEntity<List<UserTagsCountOutputDomain>> getTagCountForUser(@RequestParam("userId") String userId) {
+		List<UserTagsCountOutputDomain> userTagsCountOutputDomainList = userTagsService.getTagCountForUser(userId);
+		HttpStatus httpStatus;
+		if(userTagsCountOutputDomainList != null) {
+			httpStatus = HttpStatus.OK;
+		} else {
+			httpStatus = HttpStatus.BAD_REQUEST;
+		}
+		
+		return new ResponseEntity<List<UserTagsCountOutputDomain>>(userTagsCountOutputDomainList, httpStatus);
+	}
 }

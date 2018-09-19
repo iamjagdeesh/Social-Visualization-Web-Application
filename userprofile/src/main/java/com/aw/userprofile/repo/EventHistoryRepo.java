@@ -23,5 +23,8 @@ public interface EventHistoryRepo extends CrudRepository<EventHistory, Integer>{
 	
 	@Query("from EventHistory e where e.user.id= :userId and e.event.id= :eventId")
 	public List<EventHistory> findByUserIdAndEventId(@Param("userId") String userId, @Param("eventId") Integer eventId);
+	
+	@Query("from EventHistory e where e.user.id= :userId and e.event.name= :eventName")
+	public List<EventHistory> findByUserIdAndEventName(@Param("userId") String userId, @Param("eventName") String eventName);
 
 }

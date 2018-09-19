@@ -31,6 +31,7 @@ class Home extends Component {
         console.log("Logout button clicked");
         const cookies = new Cookies();
         cookies.remove("userId", {path:'http://localhost:3000/'});
+        cookies.remove("userId", {path:'http://localhost:3000/aw'});
         this.saveLoginData(null);
     }
 

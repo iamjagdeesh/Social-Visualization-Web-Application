@@ -3,6 +3,7 @@ package com.aw.userprofile.service;
 import java.util.List;
 
 import com.aw.userprofile.domain.EventHistoryDomain;
+import com.aw.userprofile.domain.EventHistoryHourCountDomain;
 
 public interface EventHistoryService {
 	
@@ -15,5 +16,7 @@ public interface EventHistoryService {
 	public List<EventHistoryDomain> getEventHistory(Integer eventId);
 	
 	public List<EventHistoryDomain> getEventHistory(String userId, Integer eventId);
+	
+	public List<EventHistoryHourCountDomain> getEventHistoyHourCount(String userId, String eventName);
 
 }
