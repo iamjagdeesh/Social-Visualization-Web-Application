@@ -11,7 +11,6 @@ import MainNav from './mainNav.js';
 import Login from './login.js';
 import Register from './register.js';
 import Home from './home.js';
-import { withCookies, Cookies } from 'react-cookie';
 
 class App extends Component {
 
@@ -35,16 +34,13 @@ class App extends Component {
             <Switch>
               <Route exact path="/register" render={() => (<Register 
                                                   loginData={this.state.loginData}
-                                                  saveLoginData={this.saveLoginData}
-                                                  cookies={this.props.cookies}/>)} />
+                                                  saveLoginData={this.saveLoginData} />)} />
               <Route path="/login" render={() => (<Login 
                                                   loginData={this.state.loginData}
-                                                  saveLoginData={this.saveLoginData}
-                                                  cookies={this.props.cookies}/>)} />
+                                                  saveLoginData={this.saveLoginData} />)} />
               <Route exact path="/home" render={() => (<Home 
                                                   loginData={this.state.loginData}
-                                                  saveLoginData={this.saveLoginData}
-                                                  cookies={this.props.cookies}/>)} />
+                                                  saveLoginData={this.saveLoginData} />)} />
             </Switch>
           </main>
           <hr />
@@ -54,4 +50,4 @@ class App extends Component {
   }
 }
 
-export default withCookies(App);
+export default App;

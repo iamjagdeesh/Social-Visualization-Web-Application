@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
-import { Row, Col, Button, Table } from 'reactstrap';
+import { Row, Button, Table } from 'reactstrap';
+import Cookies from "universal-cookie";
 
 import Login from './login.js';
 import LoginHistory from './models/loginHistory.js';
 import Stack from './stack.js';
-import Cookies from "universal-cookie";
+import Visualization from './visualization.js';
+
 
 class Home extends Component {
 
@@ -16,6 +18,7 @@ class Home extends Component {
         this.loginHistory = new LoginHistory();
         this.getLoginHistory = this.getLoginHistory.bind(this);
         this.stack = this.stack.bind(this);
+        this.visualization = this.visualization.bind(this);
         console.log("Inside Home!");
     }
 
@@ -47,16 +50,22 @@ class Home extends Component {
         this.setState({stack: true});
     }
 
+    async visualization(e) {
+        e.preventDefault();
+        this.setState({visualization: true});
+    }
+
     render() {
         console.log("Inside Home render!");
         return (
             <div>
                 {
-                    this.props.loginData && !this.state.stack &&
+                    this.props.loginData && !this.state.stack && !this.state.visualization &&
                     <div>
                         <h1>Welcome {this.props.loginData.userName}</h1>
                         <Button onClick={this.getLoginHistory} >Show Login History</Button>
                         <Button onClick={this.stack} >Go to Stack Overflow</Button>
+                        <Button onClick={this.visualization} >Visualization</Button>
                         <Row />
                         {
                             !this.state.isHistoryTableLoading &&
@@ -91,6 +100,12 @@ class Home extends Component {
                 {
                     this.state.stack &&
                     <Stack 
+                        loginData={this.props.loginData}
+                        saveLoginData={this.saveLoginData}/>
+                }
+                {
+                    this.state.visualization &&
+                    <Visualization 
                         loginData={this.props.loginData}
                         saveLoginData={this.saveLoginData}/>
                 }

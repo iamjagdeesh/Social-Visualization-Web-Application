@@ -27,7 +27,7 @@ chrome.extension.onMessage.addListener(
     var username = 'dummy';
     chrome.cookies.get( { url: 'http://localhost:3000/', name: 'userId' },
       function (cookie) {
-      if (cookie) {
+        if (cookie) {
           console.log(cookie);
           userId = cookie.value;
           var timestamp = new Date();

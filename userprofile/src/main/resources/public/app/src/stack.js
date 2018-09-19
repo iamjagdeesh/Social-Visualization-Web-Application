@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col, Button, Table } from 'reactstrap';
+import { Button } from 'reactstrap';
 
 class Stack extends Component {
 

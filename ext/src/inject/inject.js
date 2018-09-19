@@ -41,6 +41,17 @@ $('.question-hyperlink').click(function() {
 
 });
 
+$('.comments-link').click(function() {
+	console.log("User tried to comment!"); 
+	chrome.extension.sendMessage({
+		type: "clicked",
+		class: "comment",
+		url : window.location.href
+		
+	});
+
+});
+
 $('[class^=vote-up]').click(function() { 
 	chrome.extension.sendMessage({
 		type: "clicked",
