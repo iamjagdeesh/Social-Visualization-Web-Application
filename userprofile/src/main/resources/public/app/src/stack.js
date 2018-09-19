@@ -25,8 +25,10 @@ class Stack extends Component {
             <div>
                 {
                     this.props.loginData &&
+                    
                     <div>
                         <h1>Stack Overflow Java</h1>
+                        <a href="https://stackoverflow.com/questions/tagged/java?sort=frequent&pageSize=15" target="_blank">stackoverflow</a>
                         <Button onClick={this.logout}>Logout</Button>
                     </div>
                 }

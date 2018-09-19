@@ -30,6 +30,9 @@ public class EventHistory implements Serializable {
 	@ManyToOne
 	private Event event;
 	
+	@Column(name="description")
+	private String description;
+	
 	@Column(name="event_time")
 	private Timestamp eventTime;
 
@@ -68,6 +71,14 @@ public class EventHistory implements Serializable {
 
 	public void setEventTime(Timestamp eventTime) {
 		this.eventTime = eventTime;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 }

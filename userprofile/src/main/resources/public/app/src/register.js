@@ -4,6 +4,7 @@ import { Row, Col, Form, FormGroup, Label, Input, FormText, Button } from 'react
 
 import UserProfile from './models/user.js';
 import Home from './home.js';
+import Cookies from "universal-cookie";
 
 class Register extends Component {
 
@@ -36,6 +37,8 @@ class Register extends Component {
         let data;
         try {
             data = await this.registerUser.register(userId, userName, password);
+            const cookies = new Cookies();
+            cookies.set("userId", userId, {path:'http://localhost:3000/'});
             this.saveLoginData(data);
         } catch (err) {
             const respData = err.response && err.response.data && err.response.data.error;

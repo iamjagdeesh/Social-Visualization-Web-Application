@@ -2,6 +2,8 @@ package com.aw.userprofile.controller;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -14,8 +16,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.aw.userprofile.domain.EventDomain;
+import com.aw.userprofile.domain.EventHistoryDomain;
 import com.aw.userprofile.domain.LoginHistoryDomain;
 import com.aw.userprofile.domain.UserDomain;
+import com.aw.userprofile.service.EventHistoryService;
 import com.aw.userprofile.service.EventService;
 import com.aw.userprofile.service.LoginHistoryService;
 import com.aw.userprofile.service.UserProfileService;
@@ -25,6 +29,8 @@ import com.aw.userprofile.service.UserProfileService;
 @RequestMapping("/aw")
 public class UserProfileController {
 	
+	private static final Logger LOGGER = LoggerFactory.getLogger(UserProfileController.class);
+	
 	@Autowired
 	private UserProfileService userProfileService;
 	
@@ -33,6 +39,9 @@ public class UserProfileController {
 	
 	@Autowired
 	private LoginHistoryService loginHistoryService;
+	
+	@Autowired
+	private EventHistoryService eventHistoryService;
 	
 	@RequestMapping(value = "/info", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> getInfo() {
@@ -98,5 +107,70 @@ public class UserProfileController {
 		
 		return new ResponseEntity<List<LoginHistoryDomain>>(loginHistoryDomainList, httpStatus);
 	}
-
+	
+	@RequestMapping(value = "/addEventHistory", method = RequestMethod.POST)
+	public ResponseEntity<EventHistoryDomain> addEventHistory(@RequestBody EventHistoryDomain eventHistoryDomain) {
+		EventHistoryDomain eventHistoryDomain2 = eventHistoryService.saveEventHistory(eventHistoryDomain);
+		HttpStatus httpStatus;
+		if(eventHistoryDomain2 != null) {
+			httpStatus = HttpStatus.OK;
+		} else {
+			httpStatus = HttpStatus.BAD_REQUEST;
+		}
+		
+		return new ResponseEntity<EventHistoryDomain>(eventHistoryDomain2, httpStatus);
+	}
+	
+	@RequestMapping(value = "/getEventHistory", method = RequestMethod.GET)
+	public ResponseEntity<List<EventHistoryDomain>> getEventHistory() {
+		List<EventHistoryDomain> eventHistoryDomainList = eventHistoryService.getEventHistory();
+		HttpStatus httpStatus;
+		if(eventHistoryDomainList != null) {
+			httpStatus = HttpStatus.OK;
+		} else {
+			httpStatus = HttpStatus.BAD_REQUEST;
+		}
+		
+		return new ResponseEntity<List<EventHistoryDomain>>(eventHistoryDomainList, httpStatus);
+	}
+	
+	@RequestMapping(value = "/getEventHistoryForUser", method = RequestMethod.GET)
+	public ResponseEntity<List<EventHistoryDomain>> getEventHistoryForUser(@RequestParam("userId") String userId) {
+		List<EventHistoryDomain> eventHistoryDomainList = eventHistoryService.getEventHistory(userId);
+		HttpStatus httpStatus;
+		if(eventHistoryDomainList != null) {
+			httpStatus = HttpStatus.OK;
+		} else {
+			httpStatus = HttpStatus.BAD_REQUEST;
+		}
+		
+		return new ResponseEntity<List<EventHistoryDomain>>(eventHistoryDomainList, httpStatus);
+	}
+	
+	@RequestMapping(value = "/getEventHistoryForEvent", method = RequestMethod.GET)
+	public ResponseEntity<List<EventHistoryDomain>> getEventHistoryForEvent(@RequestParam("eventId") Integer eventId) {
+		List<EventHistoryDomain> eventHistoryDomainList = eventHistoryService.getEventHistory(eventId);
+		HttpStatus httpStatus;
+		if(eventHistoryDomainList != null) {
+			httpStatus = HttpStatus.OK;
+		} else {
+			httpStatus = HttpStatus.BAD_REQUEST;
+		}
+		
+		return new ResponseEntity<List<EventHistoryDomain>>(eventHistoryDomainList, httpStatus);
+	}
+	
+	@RequestMapping(value = "/getEventHistoryForUserAndEvent", method = RequestMethod.GET)
+	public ResponseEntity<List<EventHistoryDomain>> getEventHistoryForUserAndEvent(@RequestParam("userId") String userId, @RequestParam("eventId") Integer eventId) {
+		List<EventHistoryDomain> eventHistoryDomainList = eventHistoryService.getEventHistory(userId, eventId);
+		HttpStatus httpStatus;
+		if(eventHistoryDomainList != null) {
+			httpStatus = HttpStatus.OK;
+		} else {
+			httpStatus = HttpStatus.BAD_REQUEST;
+		}
+		
+		return new ResponseEntity<List<EventHistoryDomain>>(eventHistoryDomainList, httpStatus);
+	}
+	
 }

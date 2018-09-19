@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import com.aw.userprofile.entities.LoginHistory;
 
 @Repository
-public interface LoginHistoryRepo extends CrudRepository<LoginHistory, String>{
+public interface LoginHistoryRepo extends CrudRepository<LoginHistory, Integer>{
 	
 	@Query("from LoginHistory l order by l.id asc")
 	public List<LoginHistory> findAll();

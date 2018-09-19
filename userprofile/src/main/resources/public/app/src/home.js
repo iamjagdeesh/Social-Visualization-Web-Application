@@ -4,6 +4,7 @@ import { Row, Col, Button, Table } from 'reactstrap';
 import Login from './login.js';
 import LoginHistory from './models/loginHistory.js';
 import Stack from './stack.js';
+import Cookies from "universal-cookie";
 
 class Home extends Component {
 
@@ -25,6 +26,8 @@ class Home extends Component {
 
     logout() {
         console.log("Logout button clicked");
+        const cookies = new Cookies();
+        cookies.remove("userId", {path:'http://localhost:3000/'});
         this.saveLoginData(null);
     }
 
