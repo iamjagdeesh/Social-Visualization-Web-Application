@@ -21,7 +21,6 @@ class App extends Component {
   }
 
   saveLoginData(loginData) {
-    console.log("Inside app: saveLoginData()");
     this.setState({loginData: loginData});
   }
 

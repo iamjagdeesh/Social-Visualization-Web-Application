@@ -13,7 +13,6 @@ export default class UserProfile extends CancelableOperation {
         let data;
         try {
             let response = await Axios.post('/aw/login', payload);
-            console.log(response.data);
             data = response.data;
         } catch (err) {
             if(!Axios.isCancel(err)){
@@ -34,7 +33,6 @@ export default class UserProfile extends CancelableOperation {
         let data;
         try {
             let response = await Axios.post('/aw/register', payload);
-            console.log(response.data);
             data = response.data;
         } catch (err) {
             if(!Axios.isCancel(err)){

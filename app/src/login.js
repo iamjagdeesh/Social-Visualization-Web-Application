@@ -43,10 +43,8 @@ class Login extends Component {
             const respData = err.response && err.response.data && err.response.data.error;
             if (respData) {
                 data = err.response.data;
-                //console.log(data);
             }
 
-            console.error(`error while login: ${err.message}`);
             this.setState((prev) => ({ ...prev, login_err: err }));
         }
         finally {

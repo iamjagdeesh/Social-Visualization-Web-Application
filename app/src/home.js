@@ -19,11 +19,9 @@ class Home extends Component {
         this.stack = this.stack.bind(this);
         this.visualization = this.visualization.bind(this);
         this.toggle = this.toggle.bind(this);
-        console.log("Inside Home!");
     }
 
     toggle() {
-        console.log("Toggle clicked");
         this.setState({ collapse: !this.state.collapse });
     }
 
@@ -33,7 +31,6 @@ class Home extends Component {
     }
 
     logout() {
-        console.log("Logout button clicked");
         const cookies = new Cookies();
         cookies.remove("userId", {path:'http://localhost:3000/'});
         cookies.remove("userId", {path:'http://localhost:3000/aw'});
@@ -46,7 +43,6 @@ class Home extends Component {
         if(this.state.isHistoryTableLoading) {
             loginHistoryData = await this.loginHistory.getLoginHistory(this.props.loginData.userId);
             this.setState({loginHistoryData: loginHistoryData, isHistoryTableLoading: false});
-            console.log(loginHistoryData);
         }
         this.toggle();
         return
@@ -63,7 +59,6 @@ class Home extends Component {
     }
 
     render() {
-        console.log("Inside Home render!");
         return (
             <div>
                 {

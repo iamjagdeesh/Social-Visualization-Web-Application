@@ -44,10 +44,8 @@ class Register extends Component {
             const respData = err.response && err.response.data && err.response.data.error;
             if (respData) {
                 data = err.response.data;
-                //console.log(data);
             }
 
-            console.error(`error while register: ${err.message}`);
             this.setState((prev) => ({ ...prev, register_err: err }));
         }
         finally {

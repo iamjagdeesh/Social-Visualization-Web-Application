@@ -23,36 +23,17 @@ class Visualization extends Component {
         this.logout = this.logout.bind(this);
     }
 
-    /*
-    componentDidMount() {
-        let lineChartData;
-        if(this.state.isLineDataLoading) {
-            lineChartData = this.eventHistory.getEventHistoryForEvent(this.props.loginData.userId, "question-link");
-            console.log(lineChartData.type);
-            this.setState({lineChartData: lineChartData, isLineDataLoading: false});
-            console.log(lineChartData);
-        }
-    }
-    */
-
     async getEventHistoryForEvent(e) {
         e.preventDefault();
         let lineChartData;
             lineChartData = await this.eventHistory.getEventHistoryForEvent(this.props.loginData.userId, "question-link");
-            console.log(lineChartData.type);
             this.setState({lineChartData: lineChartData, isLineDataLoading: false});
-            console.log(lineChartData);
         let barChartData;
             barChartData = await this.eventHistory.getTagCountForUser(this.props.loginData.userId);
-            console.log(barChartData.type);
             this.setState({barChartData: barChartData, isBarDataLoading: false});
-            console.log(barChartData);
-
         let areaChartData;
             areaChartData = await this.eventHistory.getEventHistoryForEvent(this.props.loginData.userId, "vote-up");
-            console.log(areaChartData.type);
             this.setState({areaChartData: areaChartData, isAreaDataLoading: false});
-            console.log(areaChartData);
         return
     }
 
@@ -62,7 +43,6 @@ class Visualization extends Component {
     }
 
     logout() {
-        console.log("Logout button clicked");
         this.saveLoginData(null);
     }
     

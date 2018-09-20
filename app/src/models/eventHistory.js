@@ -8,7 +8,6 @@ export default class EventHistory extends CancelableOperation {
         let data;
         try {
             let response = await Axios.get('/aw/getEventHistoryHourCountForUserAndEvent?userId='+userId+'&eventName='+eventName);
-            console.log(response.data);
             data = response.data;
         } catch (err) {
             if(!Axios.isCancel(err)){
@@ -24,7 +23,6 @@ export default class EventHistory extends CancelableOperation {
         let data;
         try {
             let response = await Axios.get('/aw/getTagCountForUser?userId='+userId);
-            console.log(response.data);
             data = response.data;
         } catch (err) {
             if(!Axios.isCancel(err)){

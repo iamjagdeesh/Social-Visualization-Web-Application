@@ -29,12 +29,6 @@ public class EventHistoryServiceImpl implements EventHistoryService {
 
 	@Override
 	public EventHistoryDomain saveEventHistory(EventHistoryDomain eventHistoryDomain) {
-		System.out.println(eventHistoryDomain.getEventDomain().getName());
-		if(eventHistoryDomain.getEventDomain().getName().equals("tagsInPage")) {
-			System.out.println("Tags event");
-			System.out.println(eventHistoryDomain.getDescription());
-			
-		}
 		EventHistory eventHistory = convertToEntity(eventHistoryDomain);
 		EventHistory returnedEventHistory = eventHistoryRepo.save(eventHistory);
 		
@@ -119,13 +113,6 @@ public class EventHistoryServiceImpl implements EventHistoryService {
 		UserDomain userDomain = new UserDomain(user.getId(), user.getName(), user.getPassword());
 		Event event = eventHistory.getEvent();
 		EventDomain eventDomain = new EventDomain(event.getId(), event.getName());
-		/*
-		Timestamp t = eventHistory.getEventTime();
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTimeInMillis(t.getTime());
-		System.out.println(calendar.get(Calendar.HOUR_OF_DAY));
-		int hour = calendar.get(Calendar.HOUR_OF_DAY);
-		*/
 		EventHistoryDomain eventHistoryDomain = new EventHistoryDomain(eventHistory.getId(), userDomain, eventDomain, eventHistory.getDescription(), eventHistory.getEventTime());
 		
 		return eventHistoryDomain;
