@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import { Row, Button, Table } from 'reactstrap';
+import { Row, Button, Table, Col, Container, Collapse, Jumbotron } from 'reactstrap';
 import Cookies from "universal-cookie";
 
 import Login from './login.js';
 import LoginHistory from './models/loginHistory.js';
-import Stack from './stack.js';
 import Visualization from './visualization.js';
 
 
@@ -13,13 +12,19 @@ class Home extends Component {
     constructor(props) {
         super(props);
         this.saveLoginData = this.saveLoginData.bind(this);
-        this.state = {loginData: null, isHistoryTableLoading: true, loginHistoryData: [], stack: false};
+        this.state = {loginData: null, isHistoryTableLoading: true, loginHistoryData: [], stack: false, collapse: false};
         this.logout = this.logout.bind(this);
         this.loginHistory = new LoginHistory();
         this.getLoginHistory = this.getLoginHistory.bind(this);
         this.stack = this.stack.bind(this);
         this.visualization = this.visualization.bind(this);
+        this.toggle = this.toggle.bind(this);
         console.log("Inside Home!");
+    }
+
+    toggle() {
+        console.log("Toggle clicked");
+        this.setState({ collapse: !this.state.collapse });
     }
 
     saveLoginData(loginData) {
@@ -43,6 +48,7 @@ class Home extends Component {
             this.setState({loginHistoryData: loginHistoryData, isHistoryTableLoading: false});
             console.log(loginHistoryData);
         }
+        this.toggle();
         return
     }
 
@@ -63,33 +69,73 @@ class Home extends Component {
                 {
                     this.props.loginData && !this.state.stack && !this.state.visualization &&
                     <div>
-                        <h1>Welcome {this.props.loginData.userName}</h1>
-                        <Button onClick={this.getLoginHistory} >Show Login History</Button>
-                        <Button onClick={this.stack} >Go to Stack Overflow</Button>
-                        <Button onClick={this.visualization} >Visualization</Button>
-                        <Row />
+                        <h1 align="center">Welcome {this.props.loginData.userName}</h1>
+                        <Container>
+                        <Row>
+                            <Col>
+                                <Button onClick={this.getLoginHistory} >Click to view login history</Button>
+                            </Col>
+                            <Col>
+                                <Button href="https://stackoverflow.com/questions/tagged/java?sort=frequent&pageSize=15" target="_blank">Go to Stackoverflow</Button>
+                            </Col>
+                            <Col>
+                                <Button onClick={this.visualization} >Click to view visualization</Button>
+                            </Col>
+                            <Col>
+                                <Button onClick={this.logout}>Logout</Button>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Jumbotron>
+                                <p>
+                                   This is a social behaviour logging application. Some of the interactions you do on the stackoverflow pages will be tracked.
+                                </p> 
+                                <p>
+                                    The following user interactions will be tracked: 
+                                </p>
+                                <li>
+                                    <b>Click on question link:</b> By tracking this, the questions user interested in stackoverflow can be analyzed. 
+                                </li>
+                                <li>
+                                    <b>Upvoting:</b> By tracking this, we can analyze the sentiment of this user towards a post or question. 
+                                </li>
+                                <li>
+                                    <b>Downvoting:</b> By tracking this, we can analyze the sentiment of this user towards a post or question.  
+                                </li>
+                                <li>
+                                    <b>Marking a post as favorite:</b> By tracking this, we can understand the user's inclinity towards the kind of posts and can be used for recommendation. 
+                                </li>
+                                <li>
+                                    <b>Tags accessed:</b> By tracking this, we can understand the tags which closely related to the user based on the frequency which can further be used for recommendation. 
+                                </li>
+                            </Jumbotron>
+                        </Row>
+                        <Row>
                         {
                             !this.state.isHistoryTableLoading &&
-                            <Table striped bordered hover responsive>
-                                <thead>
-                                    <tr>
-                                    <th>#</th>
-                                    <th>Login Time</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {   
-                                        this.state.loginHistoryData.map((history, index) => {
-                                        return <tr key={index+1}>
-                                            <td>{index+1}</td>
-                                            <td>{history.loginTime}</td>
+                            <Collapse isOpen={this.state.collapse}>
+                                <Table striped bordered hover responsive>
+                                    <thead>
+                                        <tr>
+                                        <th>#</th>
+                                        <th>Login Time</th>
                                         </tr>
-                                        })
-                                    }
-                                </tbody>
-                            </Table>
+                                    </thead>
+                                    <tbody>
+                                        {   
+                                            this.state.loginHistoryData.map((history, index) => {
+                                            return <tr key={index+1}>
+                                                <td>{index+1}</td>
+                                                <td>{history.loginTime}</td>
+                                            </tr>
+                                            })
+                                        }
+                                    </tbody>
+                                    </Table>
+                            </Collapse>
                         }
-                        <Button onClick={this.logout}>Logout</Button>
+                        </Row>
+                        </Container>
                     </div>
                 }
                 {
@@ -99,10 +145,12 @@ class Home extends Component {
                         saveLoginData={this.saveLoginData}/>
                 }
                 {
+                    /*
                     this.state.stack &&
                     <Stack 
                         loginData={this.props.loginData}
                         saveLoginData={this.saveLoginData}/>
+                    */
                 }
                 {
                     this.state.visualization &&

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col, Container, Button } from 'reactstrap';
+import { Row, Col, Container, Button, Jumbotron } from 'reactstrap';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, BarChart, Bar, AreaChart, Area } from 'recharts';
 
 import EventHistory from './models/eventHistory.js';
@@ -38,12 +38,10 @@ class Visualization extends Component {
     async getEventHistoryForEvent(e) {
         e.preventDefault();
         let lineChartData;
-        if(this.state.isLineDataLoading) {
             lineChartData = await this.eventHistory.getEventHistoryForEvent(this.props.loginData.userId, "question-link");
             console.log(lineChartData.type);
             this.setState({lineChartData: lineChartData, isLineDataLoading: false});
             console.log(lineChartData);
-        }
         let barChartData;
             barChartData = await this.eventHistory.getTagCountForUser(this.props.loginData.userId);
             console.log(barChartData.type);
@@ -51,12 +49,10 @@ class Visualization extends Component {
             console.log(barChartData);
 
         let areaChartData;
-        if(this.state.isAreaDataLoading) {
-            areaChartData = await this.eventHistory.getEventHistoryForEvent(this.props.loginData.userId, "favorite");
+            areaChartData = await this.eventHistory.getEventHistoryForEvent(this.props.loginData.userId, "vote-up");
             console.log(areaChartData.type);
             this.setState({areaChartData: areaChartData, isAreaDataLoading: false});
             console.log(areaChartData);
-        }
         return
     }
 
@@ -71,49 +67,19 @@ class Visualization extends Component {
     }
     
     render() {
-
-        const data1 = [
-            {name: 'Page A', uv: 4000, pv: 2400, amt: 2400},
-            {name: 'Page B', uv: 3000, pv: 1398, amt: 2210},
-            {name: 'Page C', uv: 2000, pv: 9800, amt: 2290},
-            {name: 'Page D', uv: 2780, pv: 3908, amt: 2000},
-            {name: 'Page E', uv: 1890, pv: 4800, amt: 2181},
-            {name: 'Page F', uv: 2390, pv: 3800, amt: 2500},
-            {name: 'Page G', uv: 3490, pv: 4300, amt: 2100},
-        ];
-
-        const data = [
-            {
-                "eventName": "question-link",
-                "timeOfDay": "After Midnight (12am-6am)",
-                "count": 0
-            },
-            {
-                "eventName": "question-link",
-                "timeOfDay": "Morning (6am-12noon)",
-                "count": 0
-            },
-            {
-                "eventName": "question-link",
-                "timeOfDay": "Afternoon (12noon-6pm)",
-                "count": 0
-            },
-            {
-                "eventName": "question-link",
-                "timeOfDay": "Night (6pm-12am)",
-                "count": 8
-            }
-        ];
-
         return(
             <div>
                 {
                     this.props.loginData &&
                     <div>
-                        <Button onClick={this.getEventHistoryForEvent}>Show Visualization 1</Button>
                         <Container>
-                            <Row>
-                                <Col md="6">
+                            <Row justify="center">
+                                <Col md={{size: 2, offset: 4}}>
+                                <Button onClick={this.getEventHistoryForEvent}>Load Visualizations (Also click to reload with live data)</Button>
+                                </Col>
+                            </Row>
+                            <Row justify="between">
+                                <Col md={{size: 8, offset: 2}}>
                                     {
                                         !this.isLineDataLoading && this.state.lineChartData &&
                                         <LineChart width={600} height={300} data={this.state.lineChartData}
@@ -127,7 +93,31 @@ class Visualization extends Component {
                                         </LineChart>
                                     }
                                 </Col>
-                                <Col md="6">
+                            </Row>
+                            <Row>
+                                <Col md={{size: 8, offset: 2}}>
+                                {
+                                    !this.isLineDataLoading && this.state.lineChartData &&
+                                    <Jumbotron>
+                                        <h2>Question Access vs Time of Day</h2>
+                                        <li>
+                                        The above visualization shows the time of the day on x-asis and the number of questions accessed on y-axis.
+                                        </li>
+                                        <li>
+                                        This visualization is a representation of user behaviour with respect to the questions he/she reads during the different durations in the day. 
+                                        </li>
+                                        <li>
+                                        With this visualization, we can analyze the behaviour of the user at different durations.
+                                        </li>
+                                        <li>
+                                        We can analyze at what time the user is most active.
+                                        </li>
+                                    </Jumbotron>
+                                }
+                                </Col>
+                            </Row>
+                            <Row justify="center">
+                                <Col md={{size: 8, offset: 2}}>
                                     {
                                         !this.isBarDataLoading && this.state.barChartData &&
                                         <BarChart width={600} height={300} data={this.state.barChartData}
@@ -143,7 +133,28 @@ class Visualization extends Component {
                                 </Col>
                             </Row>
                             <Row>
-                                <Col>
+                                <Col md={{size: 8, offset: 2}}>
+                                {
+                                    !this.isBarDataLoading && this.state.barChartData &&
+                                    <Jumbotron>
+                                        <h2>Tag frequency vs Tags</h2>
+                                        <li>
+                                        The above visualization shows the popular tags accessed by user on x-asis and the frequency of each on y-axis.                                        </li>
+                                        <li>
+                                        This visualization is a representation user tag relationship.
+                                        </li>
+                                        <li>
+                                        With this visualization, we can find the affinity of the user with the tags and recommendation can be provided based on that.
+                                        </li>
+                                        <li>
+                                        We can analyze the tags closely related to the user and recommend posts with similar tags.
+                                        </li>
+                                    </Jumbotron>
+                                }
+                                </Col>
+                            </Row>
+                            <Row justify="center">
+                                <Col md={{size: 8, offset: 2}}>
                                     {
                                         !this.isAreaDataLoading && this.state.areaChartData &&
                                         <AreaChart width={600} height={400} data={this.state.areaChartData}
@@ -155,6 +166,28 @@ class Visualization extends Component {
                                             <Area type='monotone' dataKey='count' stroke='#8884d8' fill='#8884d8' />
                                         </AreaChart>
                                     }
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col md={{size: 8, offset: 2}}>
+                                {
+                                    !this.isAreaDataLoading && this.state.areaChartData &&
+                                    <Jumbotron>
+                                        <h2>Up-vote frequency vs Time of day</h2>
+                                        <li>
+                                        The above visualization shows the time of the day on x-asis and the number of upvotes done on y-axis.
+                                        </li>
+                                        <li>
+                                        This visualization is a representation of user behaviour with respect to the upvotes he/she does during the different durations in the day.
+                                        </li>
+                                        <li>
+                                        With this visualization, we can analyze the sentiments of the users at different durations.
+                                        </li>
+                                        <li>
+                                        This can also be used to provide ads and other recommendations as its a time with positive sentiments of the user.                                        
+                                        </li>
+                                    </Jumbotron>
+                                }
                                 </Col>
                             </Row>
                         </Container>
