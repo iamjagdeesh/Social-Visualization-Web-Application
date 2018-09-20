@@ -2,10 +2,12 @@
 Assignment #1: Social visualization with behavior logging.
 
 Name: Jagdeesh Basavaraju
+
 ASU ID: 1213004713
+
 Email: jbasavar@asu.edu
 
-Steps to run the application
+## Steps to run the application
 
 ### Postgres DB installing and setup
 1. Install Postgres Database
