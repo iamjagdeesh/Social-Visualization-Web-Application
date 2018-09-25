@@ -1,6 +1,5 @@
-# Social Visualization Web Application
-## CSE 591 Adaptive Web
-## Assignment 1: Social visualization with behavior logging.
+# Social visualization with behavior logging
+## CSE 591: Adaptive Web (Assignment 1) 
 
 ## Description
 It is a web application with login / logout / register functionality which tracks the activities of user on Stackoverflow website and generates visualization to discover patterns in the data collected.
