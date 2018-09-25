@@ -1,11 +1,14 @@
-# UserProfileAW
-Assignment #1: Social visualization with behavior logging.
+# Social Visualization Web Application
+## CSE 591 Adaptive Web
+## Assignment 1: Social visualization with behavior logging.
 
-Name: Jagdeesh Basavaraju
+## Description
+It is a web application with login / logout / register functionality which tracks the activities of user on Stackoverflow website and generates visualization to discover patterns in the data collected.
 
-ASU ID: 1213004713
-
-Email: jbasavar@asu.edu
+1. Backend for this application was developed using Spring Boot which creates REST APIs.
+2. Postgres is the database used to persist the data.
+3. Frontend for this application was developed using React, a JavaScript library.
+4. Visualization were created using Recharts library.
 
 ## Steps to run the application
 
