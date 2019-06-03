@@ -1,2 +1,2 @@
-*.java  linguist-vendored
+*.java  text
 userprofile/* linguist-vendored
